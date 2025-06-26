@@ -86,11 +86,14 @@ dependencies {
 
     // retrofit
     implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.kotlinx)
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.converter.gson)
+
 
     // paging library
     implementation(libs.androidx.paging.runtime)
     implementation(libs.androidx.paging.common)
+    implementation(libs.androidx.ui.text.google.fonts)
+
 }

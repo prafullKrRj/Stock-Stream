@@ -1,5 +1,6 @@
 [versions]
 agp = "8.10.1"
+converterGson = "2.9.0"
 kotlin = "2.0.21"
 coreKtx = "1.16.0"
 junit = "4.13.2"
@@ -9,7 +10,7 @@ kotlinxSerializationJson = "1.6.3"
 lifecycleRuntimeKtx = "2.9.1"
 activityCompose = "1.10.1"
 composeBom = "2025.06.01"
-ksp = "1.9.23-1.0.19"
+ksp = "2.0.21-1.0.27"
 pagingCompose = "3.3.6"
 roomCompiler = "2.7.2"
 
@@ -21,12 +22,14 @@ navigationCompose = "2.9.0"
 koinAndroidxNavigation = "4.0.4"
 
 paging = "3.3.6"
+uiTextGoogleFonts = "1.8.3"
 
 [libraries]
 androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
 androidx-paging-common = { group = "androidx.paging", name = "paging-common", version.ref = "paging" }
+androidx-ui-text-google-fonts = { module = "androidx.compose.ui:ui-text-google-fonts", version.ref = "uiTextGoogleFonts" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version = "2.9.0" }
-retrofit-converter-kotlinx = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version = "1.0.0" }
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version = "4.12.0" }
 okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version = "4.12.0" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
