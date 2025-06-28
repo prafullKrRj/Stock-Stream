@@ -1,17 +1,45 @@
 package com.prafullkumar.stockstream.presentation.screens.home
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.TrendingDown
 import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.material.icons.filled.Whatshot
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,21 +49,21 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.prafullkumar.stockstream.data.remote.dtos.topGainersLosers.StockDto
-import com.prafullkumar.stockstream.data.remote.dtos.topGainersLosers.TopGainersLosersDto
+import androidx.navigation.NavController
+import com.prafullkumar.stockstream.domain.models.topGainersLosers.Stock
+import com.prafullkumar.stockstream.domain.models.topGainersLosers.TopGainersLosers
+import com.prafullkumar.stockstream.presentation.navigation.Routes
 import org.koin.androidx.compose.koinViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     viewModel: TopGainersLosersViewModel = koinViewModel(),
     onViewAllClick: (StockType) -> Unit = {},
-    onStockClick: (String) -> Unit = {}
+    navController: NavController
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    // Handle error messages
     LaunchedEffect(uiState.errorMessage) {
         uiState.errorMessage?.let { error ->
             snackbarHostState.showSnackbar(
@@ -46,19 +74,15 @@ fun HomeScreen(
         }
     }
 
-    Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) },
-        containerColor = MaterialTheme.colorScheme.background
-    ) { paddingValues ->
+    // Remove Scaffold wrapper - padding is handled by parent
+    Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
+            modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             item {
-                Header()
+                Header(navController)
             }
 
             when {
@@ -78,60 +102,72 @@ fun HomeScreen(
                         onViewAllMostUsed = {
                             onViewAllClick(StockType.MOST_ACTIVELY_TRADED)
                         },
-                        onStockClick = onStockClick
+                        navController
                     )
                 }
                 else -> item { EmptyContent() }
             }
         }
+
+        // Place SnackbarHost at the bottom
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier.align(Alignment.BottomCenter)
+        )
     }
 }
 
 private fun LazyListScope.stockSections(
-    data: TopGainersLosersDto, // Replace with your actual data type
+    data: TopGainersLosers, // Replace with your actual data type
     onViewAllGainers: () -> Unit,
     onViewAllLosers: () -> Unit,
     onViewAllMostUsed: () -> Unit,
-    onStockClick: (String) -> Unit
+    navController: NavController
 ) {
     // Top Gainers
-    stockSection(
+    data.topGainers?.let {
+        stockSection(
         title = "Top Gainers",
         icon = Icons.Default.TrendingUp,
         iconColor = Color(0xFF4CAF50),
-        stocks = data.topGainers.take(7),
+            stocks = if (it.size >= 7) it.take(7) else it,
         onViewAll = onViewAllGainers,
-        onStockClick = onStockClick
+            navController
     )
+    }
 
     // Top Losers
-    stockSection(
+    data.topLosers?.let {
+        stockSection(
         title = "Top Losers",
         icon = Icons.Default.TrendingDown,
         iconColor = Color(0xFFF44336),
-        stocks = data.topLosers.take(7),
+            stocks = if (it.size >= 7) it.take(7) else it,
         onViewAll = onViewAllLosers,
-        onStockClick = onStockClick
+            navController
     )
+    }
 
     // Most Actively Traded
-    stockSection(
+    data.mostActivelyTraded?.let {
+        stockSection(
         title = "Most Actively Traded",
         icon = Icons.Default.Whatshot,
         iconColor = Color(0xFFFF9800),
-        stocks = data.mostActivelyTraded.take(7),
+            stocks = if (it.size >= 7) it.take(7) else it,
         onViewAll = onViewAllMostUsed,
-        onStockClick = onStockClick
+            navController
     )
+    }
 }
 
 private fun LazyListScope.stockSection(
     title: String,
     icon: ImageVector,
     iconColor: Color,
-    stocks: List<StockDto>,
+    stocks: List<Stock>,
     onViewAll: () -> Unit,
-    onStockClick: (String) -> Unit
+    navController: NavController
 ) {
     item {
         SectionHeader(
@@ -145,19 +181,32 @@ private fun LazyListScope.stockSection(
     item {
         StockHorizontalGrid(
             stocks = stocks,
-            onStockClick = onStockClick
+            navController
         )
     }
 }
 
 @Composable
-private fun Header() {
-    Text(
-        text = "Market Overview",
-        style = MaterialTheme.typography.headlineMedium,
-        color = MaterialTheme.colorScheme.onBackground,
-        fontWeight = FontWeight.Bold
-    )
+private fun Header(
+    navController: NavController
+) {
+    Row(
+        Modifier.fillMaxSize(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = "Market Overview",
+            style = MaterialTheme.typography.headlineMedium,
+            color = MaterialTheme.colorScheme.onBackground,
+            fontWeight = FontWeight.Bold
+        )
+        IconButton(onClick = {
+            navController.navigate(Routes.Settings)
+        }) {
+            Icon(Icons.Default.Settings, contentDescription = "Settings")
+        }
+    }
 }
 
 @Composable
@@ -201,8 +250,8 @@ private fun SectionHeader(
 
 @Composable
 private fun StockHorizontalGrid(
-    stocks: List<StockDto>,
-    onStockClick: (String) -> Unit
+    stocks: List<Stock>,
+    navController: NavController
 ) {
     val firstRowStocks = stocks.take(stocks.size / 2 + stocks.size % 2)
     val secondRowStocks = stocks.drop(stocks.size / 2 + stocks.size % 2)
@@ -218,7 +267,9 @@ private fun StockHorizontalGrid(
             items(firstRowStocks) { stock ->
                 StockCard(
                     stockDto = stock,
-                    onClick = { onStockClick(stock.ticker) },
+                    onClick = {
+                        navController.navigate(Routes.ProductDetail(stock.ticker!!))
+                    },
                     modifier = Modifier.width(140.dp)
                 )
             }
@@ -233,7 +284,9 @@ private fun StockHorizontalGrid(
                 items(secondRowStocks) { stock ->
                     StockCard(
                         stockDto = stock,
-                        onClick = { onStockClick(stock.ticker) },
+                        onClick = {
+                            navController.navigate(Routes.ProductDetail(stock.ticker!!))
+                        },
                         modifier = Modifier.width(140.dp)
                     )
                 }
@@ -241,15 +294,14 @@ private fun StockHorizontalGrid(
         }
     }
 }
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StockCard(
-    stockDto: StockDto,
+    stockDto: Stock,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     val changePercent = remember(stockDto.changePercentage) {
-        stockDto.changePercentage.replace("%", "").toDoubleOrNull() ?: 0.0
+        stockDto.changePercentage?.replace("%", "")?.toDoubleOrNull() ?: 0.0
     }
     val isPositive = changePercent >= 0
     val changeColor = if (isPositive) {
@@ -279,7 +331,7 @@ fun StockCard(
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = stockDto.ticker,
+                text = stockDto.ticker!!,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 maxLines = 1,

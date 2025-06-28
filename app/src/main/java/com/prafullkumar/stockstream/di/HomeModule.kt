@@ -1,8 +1,10 @@
 package com.prafullkumar.stockstream.di
 
 import com.prafullkumar.stockstream.data.cache.CacheManager
+import com.prafullkumar.stockstream.data.local.WatchListDao
 import com.prafullkumar.stockstream.data.repository.StockRepositoryImpl
 import com.prafullkumar.stockstream.domain.repository.StockRepository
+import com.prafullkumar.stockstream.presentation.screens.companyOverview.CompanyOverViewModel
 import com.prafullkumar.stockstream.presentation.screens.home.TopGainersLosersViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModel
@@ -13,9 +15,14 @@ val homeModule = module {
         CacheManager()
     }
     single<StockRepository> {
-        StockRepositoryImpl(apiService = get(), cacheManager = get(), androidContext())
+        StockRepositoryImpl(
+            apiService = get(), cacheManager = get(), androidContext(), get<WatchListDao>()
+        )
     }
     viewModel {
         TopGainersLosersViewModel(get())
+    }
+    viewModel {
+        CompanyOverViewModel(get(), get<StockRepository>())
     }
 }

@@ -2,8 +2,8 @@ package com.prafullkumar.stockstream.presentation.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.prafullkumar.stockstream.data.remote.dtos.topGainersLosers.TopGainersLosersDto
 import com.prafullkumar.stockstream.domain.common.ApiResult
+import com.prafullkumar.stockstream.domain.models.topGainersLosers.TopGainersLosers
 import com.prafullkumar.stockstream.domain.repository.StockRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,7 +29,7 @@ class TopGainersLosersViewModel(
                     is ApiResult.Loading -> _uiState.value.copy(isLoading = result.isLoading)
                     is ApiResult.Success -> _uiState.value.copy(
                         isLoading = false,
-                        data = result.data,
+                        data = result.data.toTopGainersLosers(),
                         errorMessage = null
                     )
                     is ApiResult.Error -> _uiState.value.copy(
@@ -57,7 +57,7 @@ class TopGainersLosersViewModel(
 
 data class TopGainersLosersUiState(
     val isLoading: Boolean = false,
-    val data: TopGainersLosersDto? = null,
+    val data: TopGainersLosers? = null,
     val errorMessage: String? = null
 )
 enum class StockType {

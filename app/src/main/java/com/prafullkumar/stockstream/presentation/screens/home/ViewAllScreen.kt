@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Sort
 import androidx.compose.material3.DropdownMenu
@@ -31,12 +30,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.prafullkumar.stockstream.data.remote.dtos.topGainersLosers.StockDto
+import com.prafullkumar.stockstream.domain.models.topGainersLosers.Stock
+import com.prafullkumar.stockstream.presentation.navigation.Routes
 
 @Composable
 fun ViewAllScreen(
     type: String,
-    viewModel: TopGainersLosersViewModel
+    viewModel: TopGainersLosersViewModel,
+    navController: NavController
 ) {
     val state by viewModel.uiState.collectAsState()
 
@@ -49,15 +52,15 @@ fun ViewAllScreen(
     } else {
         when (type) {
             StockType.GAINERS.name -> TopGainersScreen(
-                stocks = state.data?.topGainers ?: emptyList()
+                stocks = state.data?.topGainers ?: emptyList(), navController
             )
 
             StockType.LOSERS.name -> TopLosersScreen(
-                stocks = state.data?.topLosers ?: emptyList()
+                stocks = state.data?.topLosers ?: emptyList(), navController
             )
 
             StockType.MOST_ACTIVELY_TRADED.name -> MostActivelyTradedScreen(
-                stocks = state.data?.mostActivelyTraded ?: emptyList()
+                stocks = state.data?.mostActivelyTraded ?: emptyList(), navController
             )
 
             else -> throw IllegalArgumentException("Unknown type: $type")
@@ -67,29 +70,33 @@ fun ViewAllScreen(
 
 @Composable
 fun MostActivelyTradedScreen(
-    stocks: List<StockDto>
+    stocks: List<Stock>,
+    navController: NavController
 ) {
     StockList(
         name = "Most Actively Traded",
-        stocks = stocks
+        stocks = stocks,
+        navController = navController
     )
 }
 
 @Composable
 fun TopLosersScreen(
-    stocks: List<StockDto>
+    stocks: List<Stock>,
+    navController: NavController
 ) {
     StockList(
         name = "Top Losers",
-        stocks = stocks
+        stocks = stocks,
+        navController
     )
 }
 
 @Composable
-fun TopGainersScreen(stocks: List<StockDto>) {
+fun TopGainersScreen(stocks: List<Stock>, navController: NavController) {
     StockList(
         name = "Top Gainers",
-        stocks = stocks
+        stocks = stocks, navController
     )
 }
 
@@ -108,7 +115,8 @@ enum class SortOption(val displayName: String) {
 @Composable
 private fun StockList(
     name: String,
-    stocks: List<StockDto>
+    stocks: List<Stock>,
+    navController: NavController
 ) {
     var searchQuery by remember { mutableStateOf("") }
     var selectedSortOption by remember { mutableStateOf(SortOption.NAME_ASC) }
@@ -120,7 +128,7 @@ private fun StockList(
             stocks
         } else {
             stocks.filter { stock ->
-                stock.ticker.contains(searchQuery, ignoreCase = true)
+                stock.ticker?.contains(searchQuery, ignoreCase = true) == true
             }
         }
     }
@@ -201,7 +209,11 @@ private fun StockList(
                 contentPadding = PaddingValues(12.dp)
             ) {
                 items(sortedStocks) { stock ->
-                    StockCard(stock, modifier = Modifier.padding(8.dp)) { }
+                    StockCard(stock, modifier = Modifier.padding(8.dp)) {
+                        stock.ticker?.let { ticker ->
+                            navController.navigate(Routes.ProductDetail(ticker))
+                        }
+                    }
                 }
             }
         }

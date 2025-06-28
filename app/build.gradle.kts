@@ -90,10 +90,8 @@ dependencies {
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.converter.gson)
 
-
-    // paging library
-    implementation(libs.androidx.paging.runtime)
-    implementation(libs.androidx.paging.common)
+    implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.ui.text.google.fonts)
-
+    implementation(libs.compose.charts)
+    implementation(libs.androidx.core.splashscreen)
 }
