@@ -3,6 +3,7 @@ package com.prafullkumar.stockstream.presentation.screens.companyOverview
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.prafullkumar.stockstream.data.local.database.entities.WatchlistCompanyEntity
+import com.prafullkumar.stockstream.data.remote.mappers.toDomain
 import com.prafullkumar.stockstream.domain.common.ApiResult
 import com.prafullkumar.stockstream.domain.models.StockDataPoint
 import com.prafullkumar.stockstream.domain.models.TimePeriod
@@ -66,7 +67,7 @@ class CompanyOverViewModel(
                         _uiState.update {
                             it.copy(
                                 isLoading = false,
-                                companyOverview = response.data.toCompanyOverView()
+                                companyOverview = response.data.toDomain(),
                             )
                         }
                     }

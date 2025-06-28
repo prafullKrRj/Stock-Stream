@@ -1,3 +1,4 @@
+import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -16,11 +17,18 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
+        buildConfigField("String", "API_KEY", "\"${getApiKey()}\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+        debug {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -38,9 +46,26 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
+fun getApiKey(): String {
+    val localPropertiesFile = rootProject.file("local.properties")
+    val localProperties = Properties()
 
+    println("Looking for local.properties at: ${localPropertiesFile.absolutePath}")
+    println("File exists: ${localPropertiesFile.exists()}")
+
+    if (localPropertiesFile.exists()) {
+        localPropertiesFile.inputStream().use { localProperties.load(it) }
+        val apiKey = localProperties.getProperty("API_KEY", "default_key")
+        println("Loaded API_KEY: $apiKey")
+        return apiKey
+    }
+
+    println("local.properties not found, using default")
+    return "default_key"
+}
 dependencies {
 
     implementation(libs.androidx.core.ktx)

@@ -3,6 +3,7 @@ package com.prafullkumar.stockstream.data.repository
 import android.util.Log
 import com.prafullkumar.stockstream.data.cache.CacheManager
 import com.prafullkumar.stockstream.data.remote.api.ApiService
+import com.prafullkumar.stockstream.data.remote.mappers.toDomain
 import com.prafullkumar.stockstream.domain.common.ApiResult
 import com.prafullkumar.stockstream.domain.models.marketstatus.Market
 import com.prafullkumar.stockstream.domain.models.news.News
@@ -24,7 +25,7 @@ class NewsRepositoryImpl(
                 emit(ApiResult.Error(message = "No market statuses available"))
                 return@flow
             }
-            emit(ApiResult.Success(response.markets.map { it.toDomainModel() }))
+            emit(ApiResult.Success(response.markets.map { it.toDomain() }))
         } catch (e: Exception) {
             emit(ApiResult.Error(message = e.message ?: "Unknown error occurred"))
         }
@@ -47,7 +48,7 @@ class NewsRepositoryImpl(
             }
             val response = apiService.getNews(topics = topicParam)
             cacheManager.put("news_${category.name}", response.feed, Duration.ofHours(1))
-            emit(ApiResult.Success(response.feed.map { it.toDomainModel() }))
+            emit(ApiResult.Success(response.feed.map { it.toDomain() }))
         } catch (e: Exception) {
             emit(ApiResult.Error(message = e.message ?: "Unknown error occurred"))
         }

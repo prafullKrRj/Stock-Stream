@@ -2,6 +2,7 @@ package com.prafullkumar.stockstream.presentation.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.prafullkumar.stockstream.data.remote.mappers.toDomain
 import com.prafullkumar.stockstream.domain.common.ApiResult
 import com.prafullkumar.stockstream.domain.models.topGainersLosers.TopGainersLosers
 import com.prafullkumar.stockstream.domain.repository.StockRepository
@@ -29,7 +30,7 @@ class TopGainersLosersViewModel(
                     is ApiResult.Loading -> _uiState.value.copy(isLoading = result.isLoading)
                     is ApiResult.Success -> _uiState.value.copy(
                         isLoading = false,
-                        data = result.data.toTopGainersLosers(),
+                        data = result.data.toDomain(),
                         errorMessage = null
                     )
                     is ApiResult.Error -> _uiState.value.copy(

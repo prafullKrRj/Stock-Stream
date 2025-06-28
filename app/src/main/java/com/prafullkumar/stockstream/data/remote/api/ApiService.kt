@@ -1,5 +1,6 @@
 package com.prafullkumar.stockstream.data.remote.api
 
+import com.prafullkumar.stockstream.BuildConfig
 import com.prafullkumar.stockstream.data.remote.dtos.companyOverview.CompanyOverviewDto
 import com.prafullkumar.stockstream.data.remote.dtos.marketstatus.MarketStatusDto
 import com.prafullkumar.stockstream.data.remote.dtos.news.NewsResponseDto
@@ -13,27 +14,25 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ApiService {
-
     @GET("query")
     suspend fun getTopGainersLosers(
         @Query("function") function: String = "TOP_GAINERS_LOSERS",
-        @Query("apikey") apiKey: String = "HZJHE8FIOM4CSWF4"
+        @Query("apikey") apiKey: String = BuildConfig.API_KEY
     ): Response<TopGainersLosersDto>
 
     @GET("query")
         suspend fun getCompanyOverview(
             @Query("function") function: String = "OVERVIEW",
             @Query("symbol") symbol: String,
-            @Query("apikey") apiKey: String = "HZJHE8FIOM4CSWF4"
+            @Query("apikey") apiKey: String = BuildConfig.API_KEY
         ): Response<CompanyOverviewDto>
-
 
     @GET("query")
     suspend fun getIntradayData(
         @Query("function") function: String = "TIME_SERIES_INTRADAY",
         @Query("symbol") symbol: String,
         @Query("interval") interval: String = "15min",
-        @Query("apikey") apiKey: String = "HZJHE8FIOM4CSWF4",
+        @Query("apikey") apiKey: String = BuildConfig.API_KEY,
         @Query("outputsize") outputSize: String = "compact"
     ): IntradayResponseDto
 
@@ -41,7 +40,7 @@ interface ApiService {
     suspend fun getDailyData(
         @Query("function") function: String = "TIME_SERIES_DAILY",
         @Query("symbol") symbol: String,
-        @Query("apikey") apiKey: String = "HZJHE8FIOM4CSWF4",
+        @Query("apikey") apiKey: String = BuildConfig.API_KEY,
         @Query("outputsize") outputSize: String = "full"
     ): DailyResponseDto
 
@@ -49,20 +48,20 @@ interface ApiService {
     suspend fun getMonthlyData(
         @Query("function") function: String = "TIME_SERIES_MONTHLY",
         @Query("symbol") symbol: String,
-        @Query("apikey") apiKey: String = "HZJHE8FIOM4CSWF4"
+        @Query("apikey") apiKey: String = BuildConfig.API_KEY
     ): MonthlyResponseDto
 
     @GET("query")
     suspend fun searchSymbols(
         @Query("function") function: String = "SYMBOL_SEARCH",
         @Query("keywords") keywords: String,
-        @Query("apikey") apiKey: String = "HZJHE8FIOM4CSWF4"
+        @Query("apikey") apiKey: String = BuildConfig.API_KEY
     ): SearchResponseDto
 
     @GET("query")
     suspend fun getMarketStatuses(
         @Query("function") function: String = "MARKET_STATUS",
-        @Query("apikey") apiKey: String = "HZJHE8FIOM4CSWF4"
+        @Query("apikey") apiKey: String = BuildConfig.API_KEY
     ): MarketStatusDto
 
     @GET("query")
@@ -70,6 +69,6 @@ interface ApiService {
         @Query("function") function: String = "NEWS_SENTIMENT",
         @Query("topics") topics: String,
         @Query("sort") sort: String = "LATEST",
-        @Query("apikey") apiKey: String = "HZJHE8FIOM4CSWF4"
+        @Query("apikey") apiKey: String = BuildConfig.API_KEY
     ): NewsResponseDto
 }

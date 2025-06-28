@@ -3,6 +3,7 @@ package com.prafullkumar.stockstream.data.repository
 import android.content.Context
 import androidx.core.content.edit
 import com.prafullkumar.stockstream.data.remote.api.ApiService
+import com.prafullkumar.stockstream.data.remote.mappers.toDomain
 import com.prafullkumar.stockstream.domain.common.ApiResult
 import com.prafullkumar.stockstream.domain.models.search.SearchResult
 import com.prafullkumar.stockstream.domain.repository.SearchRepository
@@ -35,7 +36,7 @@ class SearchRepositoryImpl(
                     it.matchScore?.toDoubleOrNull() ?: 0.0
                 }
 
-                emit(ApiResult.Success(results.map { it.toDomainModel() }))
+                emit(ApiResult.Success(results.map { it.toDomain() }))
             } catch (e: HttpException) {
                 emit(
                     ApiResult.Error(

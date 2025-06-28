@@ -51,13 +51,13 @@ class StockRepositoryImpl(
         cacheDurationMins: Int,
         apiCall: suspend () -> retrofit2.Response<T>
     ): ApiResult<T> {
-        return try {
+//        return try {
             val cached = cacheManager.get<T>(cacheKey)
             if (cached != null) {
                 return ApiResult.Success(cached)
             }
             val response = apiCall()
-            if (response.isSuccessful) {
+            return if (response.isSuccessful) {
                 val body = response.body()
                 Log.d("StockRepository", "Fetched data for $cacheKey: ${body.toString()}")
                 if (body != null) {
@@ -68,13 +68,13 @@ class StockRepositoryImpl(
             } else {
                 ApiResult.Error(message = "Error: ${response.code()} - ${response.message()}")
             }
-        } catch (e: IOException) {
-            ApiResult.Error(message = "Network error: ${e.message}")
-        } catch (e: HttpException) {
-            ApiResult.Error(message = "HTTP error: ${e.message}")
-        } catch (e: Exception) {
-            ApiResult.Error(message = e.message ?: "An unexpected error occurred")
-        }
+//        } catch (e: IOException) {
+//            ApiResult.Error(message = "Network error: ${e.message}")
+//        } catch (e: HttpException) {
+//            ApiResult.Error(message = "HTTP error: ${e.message}")
+//        } catch (e: Exception) {
+//            ApiResult.Error(message = e.message ?: "An unexpected error occurred")
+//        }
     }
 
     override suspend fun getStockData(
