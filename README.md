@@ -93,7 +93,7 @@ Target SDK: 34
 3. **Add API Key**
    ```properties
    # local.properties
-   ALPHA_VANTAGE_API_KEY=your_api_key_here
+   API_KEY=your_api_key_here
    ```
 
 4. **Build & Run**
