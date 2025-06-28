@@ -15,8 +15,6 @@ import com.prafullkumar.stockstream.domain.models.TimePeriod
 import com.prafullkumar.stockstream.domain.repository.StockRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.HttpException
-import java.io.IOException
 import java.time.Duration
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -175,7 +173,7 @@ class StockRepositoryImpl(
         if (response.timeSeries.isNullOrEmpty()) {
             return emptyList()
         }
-        return response.timeSeries?.map { (timestamp, entry) ->
+        return response.timeSeries.map { (timestamp, entry) ->
             StockDataPoint(
                 timestamp = timestamp,
                 open = entry.open!!.toDouble(),
