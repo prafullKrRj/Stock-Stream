@@ -1,7 +1,6 @@
 package com.prafullkumar.stockstream.data.remote.dtos.search
 
 import com.google.gson.annotations.SerializedName
-import com.prafullkumar.stockstream.domain.models.search.SearchResult
 
 data class SearchResponseDto(
     @SerializedName("bestMatches")
@@ -27,18 +26,4 @@ data class SearchResultDto(
     val currency: String?,
     @SerializedName("9. matchScore")
     val matchScore: String?
-) {
-    fun toDomainModel(): SearchResult {
-        return SearchResult(
-            symbol = symbol ?: "",
-            name = name ?: "",
-            type = type ?: "",
-            region = region ?: "",
-            marketOpen = marketOpen ?: "",
-            marketClose = marketClose ?: "",
-            timezone = timezone ?: "",
-            currency = currency ?: "",
-            matchScore = matchScore ?: ""
-        )
-    }
-}
+)

@@ -1,4 +1,4 @@
-package com.prafullkumar.stockstream.data.local
+package com.prafullkumar.stockstream.data.local.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -6,6 +6,10 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
+import com.prafullkumar.stockstream.data.local.database.entities.WatchListEntity
+import com.prafullkumar.stockstream.data.local.database.entities.WatchlistCompanyCrossRef
+import com.prafullkumar.stockstream.data.local.database.entities.WatchlistCompanyEntity
+import com.prafullkumar.stockstream.data.local.database.relation.WatchlistWithCompanies
 import kotlinx.coroutines.flow.Flow
 
 @Dao

@@ -2,7 +2,7 @@ package com.prafullkumar.stockstream.data.repository
 
 import android.content.Context
 import androidx.core.content.edit
-import com.prafullkumar.stockstream.data.remote.ApiService
+import com.prafullkumar.stockstream.data.remote.api.ApiService
 import com.prafullkumar.stockstream.domain.common.ApiResult
 import com.prafullkumar.stockstream.domain.models.search.SearchResult
 import com.prafullkumar.stockstream.domain.repository.SearchRepository

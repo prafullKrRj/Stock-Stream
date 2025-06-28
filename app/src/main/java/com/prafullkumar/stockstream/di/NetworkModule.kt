@@ -1,6 +1,6 @@
 package com.prafullkumar.stockstream.di
 
-import com.prafullkumar.stockstream.data.remote.ApiService
+import com.prafullkumar.stockstream.data.remote.api.ApiService
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

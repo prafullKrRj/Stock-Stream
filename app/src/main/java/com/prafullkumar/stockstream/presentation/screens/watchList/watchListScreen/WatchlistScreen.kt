@@ -33,7 +33,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.prafullkumar.stockstream.data.local.WatchlistWithCompanies
+import com.prafullkumar.stockstream.data.local.database.relation.WatchlistWithCompanies
 import com.prafullkumar.stockstream.presentation.navigation.Routes
 import com.prafullkumar.stockstream.presentation.screens.watchList.watchListScreen.components.CreateWatchlistDialog
 import com.prafullkumar.stockstream.presentation.screens.watchList.watchListScreen.components.EmptyWatchlistState

@@ -1,8 +1,8 @@
 package com.prafullkumar.stockstream.data.repository
 
-import com.prafullkumar.stockstream.data.local.WatchListDao
-import com.prafullkumar.stockstream.data.local.WatchListEntity
-import com.prafullkumar.stockstream.data.local.WatchlistWithCompanies
+import com.prafullkumar.stockstream.data.local.database.dao.WatchListDao
+import com.prafullkumar.stockstream.data.local.database.entities.WatchListEntity
+import com.prafullkumar.stockstream.data.local.database.relation.WatchlistWithCompanies
 import com.prafullkumar.stockstream.domain.repository.WatchListRepository
 import kotlinx.coroutines.flow.Flow
 

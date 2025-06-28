@@ -9,8 +9,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.prafullkumar.stockstream.data.preferences.ThemeMode
-import com.prafullkumar.stockstream.data.preferences.ThemePreferences
+import com.prafullkumar.stockstream.data.local.preferences.ThemeMode
+import com.prafullkumar.stockstream.data.local.preferences.ThemePreferences
 import com.prafullkumar.stockstream.presentation.theme.StockStreamTheme
 
 
@@ -20,7 +20,6 @@ class MainActivity : ComponentActivity() {
 
         installSplashScreen()
         enableEdgeToEdge()
-
         setContent {
             val themePreferences = remember { ThemePreferences(this) }
             val themeMode by themePreferences.themeMode.collectAsState(initial = ThemeMode.SYSTEM.value)

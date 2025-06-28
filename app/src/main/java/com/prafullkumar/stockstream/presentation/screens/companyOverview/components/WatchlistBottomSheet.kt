@@ -32,7 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.prafullkumar.stockstream.data.local.WatchListEntity
+import com.prafullkumar.stockstream.data.local.database.entities.WatchListEntity
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

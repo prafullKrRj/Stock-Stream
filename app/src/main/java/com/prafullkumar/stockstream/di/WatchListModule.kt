@@ -1,8 +1,8 @@
 package com.prafullkumar.stockstream.di
 
 import androidx.room.Room
-import com.prafullkumar.stockstream.data.local.WatchListDao
-import com.prafullkumar.stockstream.data.local.WatchListDatabase
+import com.prafullkumar.stockstream.data.local.database.dao.WatchListDao
+import com.prafullkumar.stockstream.data.local.database.WatchListDatabase
 import com.prafullkumar.stockstream.data.repository.WatchListRepositoryImpl
 import com.prafullkumar.stockstream.domain.repository.WatchListRepository
 import com.prafullkumar.stockstream.presentation.screens.watchList.companies.CompaniesViewModel

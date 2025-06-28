@@ -2,8 +2,8 @@ package com.prafullkumar.stockstream.presentation.screens.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.prafullkumar.stockstream.data.preferences.ThemeMode
-import com.prafullkumar.stockstream.data.preferences.ThemePreferences
+import com.prafullkumar.stockstream.data.local.preferences.ThemeMode
+import com.prafullkumar.stockstream.data.local.preferences.ThemePreferences
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 data class SettingsUiState(
     val themeMode: ThemeMode = ThemeMode.SYSTEM,
-    val dynamicColorEnabled: Boolean = true,
+    val dynamicColorEnabled: Boolean = false,
     val isLoading: Boolean = false
 )
 

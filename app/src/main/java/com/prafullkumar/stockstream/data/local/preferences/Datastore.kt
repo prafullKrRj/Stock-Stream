@@ -1,4 +1,4 @@
-package com.prafullkumar.stockstream.data.preferences
+package com.prafullkumar.stockstream.data.local.preferences
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -24,7 +24,7 @@ class ThemePreferences(private val context: Context) {
     }
 
     val dynamicColor: Flow<Boolean> = context.themeDataStore.data.map { preferences ->
-        preferences[DYNAMIC_COLOR_KEY] ?: true
+        preferences[DYNAMIC_COLOR_KEY] ?: false
     }
 
     suspend fun setThemeMode(themeMode: ThemeMode) {

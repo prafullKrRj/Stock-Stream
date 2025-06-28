@@ -1,7 +1,7 @@
 package com.prafullkumar.stockstream.domain.repository
 
-import com.prafullkumar.stockstream.data.local.WatchListEntity
-import com.prafullkumar.stockstream.data.local.WatchlistCompanyEntity
+import com.prafullkumar.stockstream.data.local.database.entities.WatchListEntity
+import com.prafullkumar.stockstream.data.local.database.entities.WatchlistCompanyEntity
 import com.prafullkumar.stockstream.data.remote.dtos.companyOverview.CompanyOverviewDto
 import com.prafullkumar.stockstream.data.remote.dtos.topGainersLosers.TopGainersLosersDto
 import com.prafullkumar.stockstream.domain.common.ApiResult

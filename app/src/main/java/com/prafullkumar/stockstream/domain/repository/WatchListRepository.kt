@@ -1,6 +1,6 @@
 package com.prafullkumar.stockstream.domain.repository
 
-import com.prafullkumar.stockstream.data.local.WatchlistWithCompanies
+import com.prafullkumar.stockstream.data.local.database.relation.WatchlistWithCompanies
 import kotlinx.coroutines.flow.Flow
 
 interface WatchListRepository {

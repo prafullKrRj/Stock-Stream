@@ -1,6 +1,6 @@
 package com.prafullkumar.stockstream.di
 
-import com.prafullkumar.stockstream.data.preferences.ThemePreferences
+import com.prafullkumar.stockstream.data.local.preferences.ThemePreferences
 import com.prafullkumar.stockstream.presentation.screens.settings.SettingsViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModel

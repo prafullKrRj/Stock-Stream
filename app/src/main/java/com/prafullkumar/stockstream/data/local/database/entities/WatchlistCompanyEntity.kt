@@ -1,4 +1,4 @@
-package com.prafullkumar.stockstream.data.local
+package com.prafullkumar.stockstream.data.local.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

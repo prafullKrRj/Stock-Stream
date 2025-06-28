@@ -1,4 +1,4 @@
-package com.prafullkumar.stockstream.data.remote
+package com.prafullkumar.stockstream.data.remote.api
 
 import com.prafullkumar.stockstream.data.remote.dtos.companyOverview.CompanyOverviewDto
 import com.prafullkumar.stockstream.data.remote.dtos.marketstatus.MarketStatusDto

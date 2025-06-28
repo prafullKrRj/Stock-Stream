@@ -2,7 +2,7 @@ package com.prafullkumar.stockstream.data.repository
 
 import android.util.Log
 import com.prafullkumar.stockstream.data.cache.CacheManager
-import com.prafullkumar.stockstream.data.remote.ApiService
+import com.prafullkumar.stockstream.data.remote.api.ApiService
 import com.prafullkumar.stockstream.domain.common.ApiResult
 import com.prafullkumar.stockstream.domain.models.marketstatus.Market
 import com.prafullkumar.stockstream.domain.models.news.News

@@ -2,7 +2,7 @@ package com.prafullkumar.stockstream.presentation.screens.companyOverview
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.prafullkumar.stockstream.data.local.WatchlistCompanyEntity
+import com.prafullkumar.stockstream.data.local.database.entities.WatchlistCompanyEntity
 import com.prafullkumar.stockstream.domain.common.ApiResult
 import com.prafullkumar.stockstream.domain.models.StockDataPoint
 import com.prafullkumar.stockstream.domain.models.TimePeriod
