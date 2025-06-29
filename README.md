@@ -11,8 +11,11 @@
 
 ## ✨ About
 
-Stock Stream is a sleek Android application that brings real-time stock market data to your fingertips. Built with modern Android architecture and powered by Alpha Vantage API, it offers a seamless trading experience with beautiful Material 3 design.
+Stock Stream is a sleek Android application that brings real-time stock market data to your fingertips. Built with modern Android architecture and powered by Alpha Vantage API, it offers a seamless trading experience with beautiful UI and powerful features.
 
+## 📱 Download
+
+[📲 Download APK](https://drive.google.com/file/d/1OsOf8fJoAcj0EMiPear5x5ncHbSaL2Qc/view?usp=sharing)
 ## 🎯 Features
 
 ### 📊 **Market Intelligence**
@@ -68,7 +71,62 @@ Clean Architecture + MVVM
 | **Stock Detail** | Company info, charts, and watchlist actions |
 | **Search** | Smart stock symbol search |
 | **News** | Categorized market news and updates |
-| **Settings** | Theme preferences and app configuration |
+| **Settings** | Theme preferences |
+
+## 📱 App Screenshots
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <img src="https://raw.githubusercontent.com/prafullKrRj/Stock-Stream/master/ss/1_home.jpg" alt="Home Screen" width="280" style="border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"/>
+        <br><strong>Home Screen</strong>
+        <br><sub>Market overview with top gainers & losers</sub>
+      </td>
+      <td align="center">
+        <img src="https://raw.githubusercontent.com/prafullKrRj/Stock-Stream/master/ss/2_companyOverview.jpg" alt="Company Overview" width="280" style="border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"/>
+        <br><strong>Company Overview</strong>
+        <br><sub>Detailed company information & metrics</sub>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="https://raw.githubusercontent.com/prafullKrRj/Stock-Stream/master/ss/3_addToWatchList.jpg" alt="Add to Watchlist" width="280" style="border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"/>
+        <br><strong>Add to Watchlist</strong>
+        <br><sub>Manage your stock watchlists</sub>
+      </td>
+      <td align="center">
+        <img src="https://raw.githubusercontent.com/prafullKrRj/Stock-Stream/master/ss/4_search.jpg" alt="Search" width="280" style="border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"/>
+        <br><strong>Search</strong>
+        <br><sub>Intelligent stock symbol search</sub>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="https://raw.githubusercontent.com/prafullKrRj/Stock-Stream/master/ss/5_news.jpg" alt="News Feed" width="280" style="border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"/>
+        <br><strong>News Feed</strong>
+        <br><sub>Latest market news & updates</sub>
+      </td>
+      <td align="center">
+        <img src="https://raw.githubusercontent.com/prafullKrRj/Stock-Stream/master/ss/6_watchlists.jpg" alt="Watchlists" width="280" style="border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"/>
+        <br><strong>Watchlists</strong>
+        <br><sub>Multiple watchlist management</sub>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="https://raw.githubusercontent.com/prafullKrRj/Stock-Stream/master/ss/7_companies.jpg" alt="Companies" width="280" style="border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"/>
+        <br><strong>Companies</strong>
+        <br><sub>Browse company listings</sub>
+      </td>
+      <td align="center">
+        <img src="https://raw.githubusercontent.com/prafullKrRj/Stock-Stream/master/ss/8_settings.jpg" alt="Settings" width="280" style="border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"/>
+        <br><strong>Settings</strong>
+        <br><sub>App preferences & configuration</sub>
+      </td>
+    </tr>
+  </table>
+</div>
 
 ## 🚀 Getting Started
 
@@ -108,7 +166,7 @@ app/src/main/java/com/prafullkumar/stockstream/
 ├── data/
 │   ├── cache/          # Caching mechanism
 │   ├── local/          # Room database
-│   ├── remote/         # API services
+│   ├── remote/         # API services, DTOs, Mappers
 │   └── repository/     # Repository implementations
 ├── domain/
 │   ├── models/         # Domain models
@@ -122,9 +180,7 @@ app/src/main/java/com/prafullkumar/stockstream/
 
 ## 🎨 Design Highlights
 
-- **Gradient Backgrounds** - Subtle visual depth
 - **Card-based Layout** - Clean content organization  
-- **Consistent Spacing** - 16dp/24dp design system
 - **Smart Typography** - Inter font with proper hierarchy
 - **Loading States** - Skeleton screens and progress indicators
 - **Error Handling** - User-friendly error messages with retry options
@@ -154,18 +210,7 @@ GET /query?function=NEWS_SENTIMENT&topics={category}
 - **Smart Caching** - Reduces API calls with expiration-based cache
 - **Local Database** - Room for watchlist persistence
 - **Offline Support** - Cached data available offline
-- **Background Sync** - Efficient data synchronization
 
-## 🔧 Performance
-
-- **Lazy Loading** - Efficient list rendering
-- **Image Optimization** - Memory-conscious image handling
-- **API Rate Limiting** - Respectful API usage
-- **Background Processing** - Non-blocking operations
-
-## 📱 Download
-
-[📲 Download APK](https://github.com/prafullKrRj/Stock-Stream/releases)
 
 ## 👨‍💻 Developer
 
