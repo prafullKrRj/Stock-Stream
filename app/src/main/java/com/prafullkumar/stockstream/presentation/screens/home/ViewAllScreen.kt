@@ -31,7 +31,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.prafullkumar.stockstream.data.remote.dtos.topGainersLosers.StockDto
 import com.prafullkumar.stockstream.domain.models.topGainersLosers.Stock
 import com.prafullkumar.stockstream.presentation.navigation.Routes
 
@@ -139,11 +138,22 @@ private fun StockList(
             SortOption.NAME_ASC -> filteredStocks.sortedBy { it.ticker }
             SortOption.NAME_DESC -> filteredStocks.sortedByDescending { it.ticker }
             SortOption.PRICE_ASC -> filteredStocks.sortedBy { it.price?.toDoubleOrNull() ?: 0.0 }
-            SortOption.PRICE_DESC -> filteredStocks.sortedByDescending { it.price?.toDoubleOrNull() ?: 0.0 }
-            SortOption.CHANGE_ASC -> filteredStocks.sortedBy { it.changeAmount?.toDoubleOrNull() ?: 0.0 }
-            SortOption.CHANGE_DESC -> filteredStocks.sortedByDescending { it.changeAmount?.toDoubleOrNull() ?: 0.0 }
+            SortOption.PRICE_DESC -> filteredStocks.sortedByDescending {
+                it.price?.toDoubleOrNull() ?: 0.0
+            }
+
+            SortOption.CHANGE_ASC -> filteredStocks.sortedBy {
+                it.changeAmount?.toDoubleOrNull() ?: 0.0
+            }
+
+            SortOption.CHANGE_DESC -> filteredStocks.sortedByDescending {
+                it.changeAmount?.toDoubleOrNull() ?: 0.0
+            }
+
             SortOption.VOLUME_ASC -> filteredStocks.sortedBy { it.volume?.toLongOrNull() ?: 0L }
-            SortOption.VOLUME_DESC -> filteredStocks.sortedByDescending { it.volume?.toLongOrNull() ?: 0L }
+            SortOption.VOLUME_DESC -> filteredStocks.sortedByDescending {
+                it.volume?.toLongOrNull() ?: 0L
+            }
         }
     }
 

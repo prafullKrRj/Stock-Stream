@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-
 class WatchlistViewModel(
     private val repository: WatchListRepository
 ) : ViewModel() {
@@ -71,6 +70,53 @@ class WatchlistViewModel(
                     it.copy(
                         isCreating = false,
                         errorMessage = "Failed to create watchlist"
+                    )
+                }
+            }
+        }
+    }
+
+    fun showDeleteDialog(watchlistId: Int) {
+        _uiState.update {
+            it.copy(
+                showDeleteDialog = true,
+                watchlistToDelete = watchlistId,
+                errorMessage = null
+            )
+        }
+    }
+
+    fun hideDeleteDialog() {
+        _uiState.update {
+            it.copy(
+                showDeleteDialog = false,
+                watchlistToDelete = null,
+                isDeleting = false,
+                errorMessage = null
+            )
+        }
+    }
+
+    fun deleteWatchlist() {
+        val watchlistId = _uiState.value.watchlistToDelete ?: return
+
+        _uiState.update { it.copy(isDeleting = true, errorMessage = null) }
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                repository.deleteWatchlist(watchlistId)
+                _uiState.update {
+                    it.copy(
+                        isDeleting = false,
+                        showDeleteDialog = false,
+                        watchlistToDelete = null
+                    )
+                }
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(
+                        isDeleting = false,
+                        errorMessage = "Failed to delete watchlist"
                     )
                 }
             }

@@ -3,6 +3,8 @@ package com.prafullkumar.stockstream.data.repository
 import android.util.Log
 import com.prafullkumar.stockstream.data.cache.CacheManager
 import com.prafullkumar.stockstream.data.remote.api.ApiService
+import com.prafullkumar.stockstream.data.remote.dtos.marketstatus.MarketDto
+import com.prafullkumar.stockstream.data.remote.dtos.news.NewsDto
 import com.prafullkumar.stockstream.data.remote.mappers.toDomain
 import com.prafullkumar.stockstream.domain.common.ApiResult
 import com.prafullkumar.stockstream.domain.models.marketstatus.Market
@@ -20,6 +22,12 @@ class NewsRepositoryImpl(
 
     override fun getMarketStatuses(): Flow<ApiResult<List<Market>>> = flow {
         try {
+            val cachedStatuses = cacheManager.get<List<MarketDto>>("market_statuses")
+            if (cachedStatuses != null) {
+                Log.d("NewsRepository", "Returning cached market statuses")
+                emit(ApiResult.Success(cachedStatuses.map { it.toDomain() }))
+                return@flow
+            }
             val response = apiService.getMarketStatuses()
             if (response.markets.isEmpty()) {
                 emit(ApiResult.Error(message = "No market statuses available"))
@@ -33,10 +41,10 @@ class NewsRepositoryImpl(
 
     override fun getNews(category: NewsCategory): Flow<ApiResult<List<News>>> = flow {
         try {
-            val cachedNews = cacheManager.get<List<News>>("news_${category.name}")
+            val cachedNews = cacheManager.get<List<NewsDto>>("news_${category.name}")
             if (cachedNews != null) {
                 Log.d("NewsRepository", "Returning cached news for category: ${category.name}")
-                emit(ApiResult.Success(cachedNews))
+                emit(ApiResult.Success(cachedNews.map { it.toDomain() }))
                 return@flow
             }
             val topicParam = when (category) {

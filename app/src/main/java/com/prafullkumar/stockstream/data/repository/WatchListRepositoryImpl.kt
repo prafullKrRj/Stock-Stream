@@ -27,4 +27,8 @@ class WatchListRepositoryImpl(
         )
         return dao.insertWatchlist(watchlist)
     }
+
+    override suspend fun deleteWatchlist(watchlistId: Int) {
+        dao.deleteWatchlist(watchlistId)
+    }
 }

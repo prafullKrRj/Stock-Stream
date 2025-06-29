@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Base application theme -->
+    <style name="Theme.StockStream" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here -->
+    </style>
 
-    <style name="Theme.StockStream" parent="android:Theme.Material.Light.NoActionBar" />
+    <!-- Splash screen theme -->
+    <style name="Theme.App.SplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="windowSplashScreenAnimationDuration">1000</item>
+        <item name="postSplashScreenTheme">@style/Theme.StockStream</item>
+    </style>
 </resources>

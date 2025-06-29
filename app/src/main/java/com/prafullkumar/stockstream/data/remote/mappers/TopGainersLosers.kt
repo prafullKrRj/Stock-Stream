@@ -4,8 +4,6 @@ import com.prafullkumar.stockstream.data.remote.dtos.topGainersLosers.StockDto
 import com.prafullkumar.stockstream.data.remote.dtos.topGainersLosers.TopGainersLosersDto
 import com.prafullkumar.stockstream.domain.models.topGainersLosers.Stock
 import com.prafullkumar.stockstream.domain.models.topGainersLosers.TopGainersLosers
-import java.text.NumberFormat
-import java.util.Locale
 
 fun TopGainersLosersDto.toDomain(): TopGainersLosers {
     return TopGainersLosers(
@@ -19,11 +17,11 @@ fun TopGainersLosersDto.toDomain(): TopGainersLosers {
 
 fun StockDto.toDomain(): Stock {
     return Stock(
-        changeAmount = formatCurrency(changeAmount),
-        changePercentage = formatPercentage(changePercentage),
-        price = formatCurrency(price),
+        changeAmount = changeAmount,
+        changePercentage = changePercentage,
+        price = price,
         ticker = ticker?.uppercase(),
-        volume = formatVolume(volume)
+        volume = volume
     )
 }
 
@@ -31,44 +29,6 @@ private fun formatLastUpdated(dateStr: String?): String? {
     return dateStr?.let {
         try {
             it
-        } catch (e: Exception) {
-            it
-        }
-    }
-}
-
-private fun formatCurrency(value: String?): String? {
-    return value?.let {
-        try {
-            val number = it.toDouble()
-            NumberFormat.getCurrencyInstance(Locale.US).format(number)
-        } catch (e: Exception) {
-            it
-        }
-    }
-}
-
-private fun formatPercentage(value: String?): String? {
-    return value?.let {
-        try {
-            val number = it.replace("%", "").toDouble()
-            String.format("%.2f%%", number)
-        } catch (e: Exception) {
-            it
-        }
-    }
-}
-
-private fun formatVolume(value: String?): String? {
-    return value?.let {
-        try {
-            val number = it.toLong()
-            when {
-                number >= 1_000_000_000 -> String.format("%.1fB", number / 1_000_000_000.0)
-                number >= 1_000_000 -> String.format("%.1fM", number / 1_000_000.0)
-                number >= 1_000 -> String.format("%.1fK", number / 1_000.0)
-                else -> NumberFormat.getNumberInstance().format(number)
-            }
         } catch (e: Exception) {
             it
         }

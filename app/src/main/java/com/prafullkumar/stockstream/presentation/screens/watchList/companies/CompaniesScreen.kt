@@ -84,9 +84,6 @@ fun CompaniesScreen(
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f)
-            ),
             elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
         ) {
             Row(
@@ -171,7 +168,8 @@ fun CompaniesScreen(
 
         // Companies List
         LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            modifier = Modifier.fillMaxSize()
         ) {
             items(filteredCompanies) { company ->
                 CompanyCard(

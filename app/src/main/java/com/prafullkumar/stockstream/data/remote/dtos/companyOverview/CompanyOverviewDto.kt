@@ -1,6 +1,6 @@
 package com.prafullkumar.stockstream.data.remote.dtos.companyOverview
+
 import com.google.gson.annotations.SerializedName
-import com.prafullkumar.stockstream.domain.models.companyOverview.CompanyOverview
 
 data class CompanyOverviewDto(
     @SerializedName("200DayMovingAverage") val `200DayMovingAverage`: String?,

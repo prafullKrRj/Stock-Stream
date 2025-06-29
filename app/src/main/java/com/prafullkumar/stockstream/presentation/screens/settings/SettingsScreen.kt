@@ -1,5 +1,6 @@
 package com.prafullkumar.stockstream.presentation.screens.settings
 
+import android.os.Build
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -107,14 +108,15 @@ fun SettingsScreen(
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    // Dynamic Color Setting
-                    SettingSwitchItem(
-                        icon = Icons.Default.Palette,
-                        title = "Dynamic Colors",
-                        subtitle = "Use colors from your wallpaper",
-                        checked = uiState.dynamicColorEnabled,
-                        onCheckedChange = viewModel::setDynamicColor
-                    )
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        SettingSwitchItem(
+                            icon = Icons.Default.Palette,
+                            title = "Dynamic Colors",
+                            subtitle = "Use colors from your wallpaper",
+                            checked = uiState.dynamicColorEnabled,
+                            onCheckedChange = viewModel::setDynamicColor
+                        )
+                    }
                 }
             }
 

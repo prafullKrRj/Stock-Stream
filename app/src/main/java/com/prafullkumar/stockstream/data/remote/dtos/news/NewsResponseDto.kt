@@ -1,8 +1,6 @@
 package com.prafullkumar.stockstream.data.remote.dtos.news
 
 import com.google.gson.annotations.SerializedName
-import com.prafullkumar.stockstream.domain.models.news.News
-import com.prafullkumar.stockstream.domain.models.news.NewsTopic
 
 data class NewsResponseDto(
     @SerializedName("sentiment_score_definition") val sentimentScoreDefinition: String,

@@ -90,6 +90,7 @@ fun HomeScreen(
                 uiState.errorMessage != null -> item {
                     ErrorContent(onRetry = viewModel::retry)
                 }
+
                 uiState.data != null -> {
                     stockSections(
                         data = uiState.data!!,
@@ -105,6 +106,7 @@ fun HomeScreen(
                         navController
                     )
                 }
+
                 else -> item { EmptyContent() }
             }
         }
@@ -127,37 +129,37 @@ private fun LazyListScope.stockSections(
     // Top Gainers
     data.topGainers?.let {
         stockSection(
-        title = "Top Gainers",
-        icon = Icons.Default.TrendingUp,
-        iconColor = Color(0xFF4CAF50),
+            title = "Top Gainers",
+            icon = Icons.Default.TrendingUp,
+            iconColor = Color(0xFF4CAF50),
             stocks = if (it.size >= 7) it.take(7) else it,
-        onViewAll = onViewAllGainers,
+            onViewAll = onViewAllGainers,
             navController
-    )
+        )
     }
 
     // Top Losers
     data.topLosers?.let {
         stockSection(
-        title = "Top Losers",
-        icon = Icons.Default.TrendingDown,
-        iconColor = Color(0xFFF44336),
+            title = "Top Losers",
+            icon = Icons.Default.TrendingDown,
+            iconColor = Color(0xFFF44336),
             stocks = if (it.size >= 7) it.take(7) else it,
-        onViewAll = onViewAllLosers,
+            onViewAll = onViewAllLosers,
             navController
-    )
+        )
     }
 
     // Most Actively Traded
     data.mostActivelyTraded?.let {
         stockSection(
-        title = "Most Actively Traded",
-        icon = Icons.Default.Whatshot,
-        iconColor = Color(0xFFFF9800),
+            title = "Most Actively Traded",
+            icon = Icons.Default.Whatshot,
+            iconColor = Color(0xFFFF9800),
             stocks = if (it.size >= 7) it.take(7) else it,
-        onViewAll = onViewAllMostUsed,
+            onViewAll = onViewAllMostUsed,
             navController
-    )
+        )
     }
 }
 
@@ -294,6 +296,7 @@ private fun StockHorizontalGrid(
         }
     }
 }
+
 @Composable
 fun StockCard(
     stockDto: Stock,

@@ -17,22 +17,22 @@ interface ApiService {
     @GET("query")
     suspend fun getTopGainersLosers(
         @Query("function") function: String = "TOP_GAINERS_LOSERS",
-        @Query("apikey") apiKey: String = BuildConfig.API_KEY
+        @Query("apikey") apiKey: String = BuildConfig.API_KEY_1
     ): Response<TopGainersLosersDto>
 
     @GET("query")
-        suspend fun getCompanyOverview(
-            @Query("function") function: String = "OVERVIEW",
-            @Query("symbol") symbol: String,
-            @Query("apikey") apiKey: String = BuildConfig.API_KEY
-        ): Response<CompanyOverviewDto>
+    suspend fun getCompanyOverview(
+        @Query("function") function: String = "OVERVIEW",
+        @Query("symbol") symbol: String,
+        @Query("apikey") apiKey: String = BuildConfig.API_KEY_2
+    ): Response<CompanyOverviewDto>
 
     @GET("query")
     suspend fun getIntradayData(
         @Query("function") function: String = "TIME_SERIES_INTRADAY",
         @Query("symbol") symbol: String,
         @Query("interval") interval: String = "15min",
-        @Query("apikey") apiKey: String = BuildConfig.API_KEY,
+        @Query("apikey") apiKey: String = BuildConfig.API_KEY_1,
         @Query("outputsize") outputSize: String = "compact"
     ): IntradayResponseDto
 
@@ -40,7 +40,7 @@ interface ApiService {
     suspend fun getDailyData(
         @Query("function") function: String = "TIME_SERIES_DAILY",
         @Query("symbol") symbol: String,
-        @Query("apikey") apiKey: String = BuildConfig.API_KEY,
+        @Query("apikey") apiKey: String = BuildConfig.API_KEY_1,
         @Query("outputsize") outputSize: String = "full"
     ): DailyResponseDto
 
@@ -48,20 +48,20 @@ interface ApiService {
     suspend fun getMonthlyData(
         @Query("function") function: String = "TIME_SERIES_MONTHLY",
         @Query("symbol") symbol: String,
-        @Query("apikey") apiKey: String = BuildConfig.API_KEY
+        @Query("apikey") apiKey: String = BuildConfig.API_KEY_1
     ): MonthlyResponseDto
 
     @GET("query")
     suspend fun searchSymbols(
         @Query("function") function: String = "SYMBOL_SEARCH",
         @Query("keywords") keywords: String,
-        @Query("apikey") apiKey: String = BuildConfig.API_KEY
+        @Query("apikey") apiKey: String = BuildConfig.API_KEY_1
     ): SearchResponseDto
 
     @GET("query")
     suspend fun getMarketStatuses(
         @Query("function") function: String = "MARKET_STATUS",
-        @Query("apikey") apiKey: String = BuildConfig.API_KEY
+        @Query("apikey") apiKey: String = BuildConfig.API_KEY_1
     ): MarketStatusDto
 
     @GET("query")
@@ -69,6 +69,6 @@ interface ApiService {
         @Query("function") function: String = "NEWS_SENTIMENT",
         @Query("topics") topics: String,
         @Query("sort") sort: String = "LATEST",
-        @Query("apikey") apiKey: String = BuildConfig.API_KEY
+        @Query("apikey") apiKey: String = BuildConfig.API_KEY_1
     ): NewsResponseDto
 }

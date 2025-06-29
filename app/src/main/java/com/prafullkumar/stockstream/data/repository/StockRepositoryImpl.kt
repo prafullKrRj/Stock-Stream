@@ -7,14 +7,18 @@ import com.prafullkumar.stockstream.data.local.database.dao.WatchListDao
 import com.prafullkumar.stockstream.data.local.database.entities.WatchListEntity
 import com.prafullkumar.stockstream.data.local.database.entities.WatchlistCompanyEntity
 import com.prafullkumar.stockstream.data.remote.api.ApiService
-import com.prafullkumar.stockstream.data.remote.dtos.companyOverview.CompanyOverviewDto
-import com.prafullkumar.stockstream.data.remote.dtos.topGainersLosers.TopGainersLosersDto
+import com.prafullkumar.stockstream.data.remote.mappers.toDomain
 import com.prafullkumar.stockstream.domain.common.ApiResult
+import com.prafullkumar.stockstream.domain.common.map
 import com.prafullkumar.stockstream.domain.models.StockDataPoint
 import com.prafullkumar.stockstream.domain.models.TimePeriod
+import com.prafullkumar.stockstream.domain.models.companyOverview.CompanyOverview
+import com.prafullkumar.stockstream.domain.models.topGainersLosers.TopGainersLosers
 import com.prafullkumar.stockstream.domain.repository.StockRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import retrofit2.HttpException
+import java.io.IOException
 import java.time.Duration
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -26,21 +30,28 @@ class StockRepositoryImpl(
     private val dao: WatchListDao
 ) : StockRepository {
 
-    override suspend fun getTopGainersLosers(): Flow<ApiResult<TopGainersLosersDto>> {
+    override suspend fun getTopGainersLosers(): Flow<ApiResult<TopGainersLosers>> {
         return flow {
             emit(ApiResult.Loading())
             emit(
                 fetchDataWithCache(
                     "gainers_losers", cacheDurationMins = 5
-                ) { apiService.getTopGainersLosers() })
+                ) {
+                    apiService.getTopGainersLosers()
+                }.map { it.toDomain() }
+            )
         }
     }
 
-    override suspend fun getCompanyOverview(symbol: String): Flow<ApiResult<CompanyOverviewDto>> {
+    override suspend fun getCompanyOverview(symbol: String): Flow<ApiResult<CompanyOverview>> {
         return flow {
             emit(ApiResult.Loading())
             val cacheKey = "company_overview_$symbol"
-            emit(fetchDataWithCache(cacheKey, cacheDurationMins = 60) { apiService.getCompanyOverview(symbol = symbol) })
+            emit(
+                fetchDataWithCache(
+                    cacheKey,
+                    cacheDurationMins = 60
+                ) { apiService.getCompanyOverview(symbol = symbol) }.map { it.toDomain() })
         }
     }
 
@@ -49,13 +60,13 @@ class StockRepositoryImpl(
         cacheDurationMins: Int,
         apiCall: suspend () -> retrofit2.Response<T>
     ): ApiResult<T> {
-//        return try {
+        return try {
             val cached = cacheManager.get<T>(cacheKey)
             if (cached != null) {
                 return ApiResult.Success(cached)
             }
             val response = apiCall()
-            return if (response.isSuccessful) {
+            if (response.isSuccessful) {
                 val body = response.body()
                 Log.d("StockRepository", "Fetched data for $cacheKey: ${body.toString()}")
                 if (body != null) {
@@ -66,13 +77,13 @@ class StockRepositoryImpl(
             } else {
                 ApiResult.Error(message = "Error: ${response.code()} - ${response.message()}")
             }
-//        } catch (e: IOException) {
-//            ApiResult.Error(message = "Network error: ${e.message}")
-//        } catch (e: HttpException) {
-//            ApiResult.Error(message = "HTTP error: ${e.message}")
-//        } catch (e: Exception) {
-//            ApiResult.Error(message = e.message ?: "An unexpected error occurred")
-//        }
+        } catch (e: IOException) {
+            ApiResult.Error(message = "Network error: ${e.message}")
+        } catch (e: HttpException) {
+            ApiResult.Error(message = "HTTP error: ${e.message}")
+        } catch (e: Exception) {
+            ApiResult.Error(message = e.message ?: "An unexpected error occurred")
+        }
     }
 
     override suspend fun getStockData(

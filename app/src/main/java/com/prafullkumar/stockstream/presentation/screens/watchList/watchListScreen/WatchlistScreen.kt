@@ -18,10 +18,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,6 +38,7 @@ import androidx.navigation.NavController
 import com.prafullkumar.stockstream.data.local.database.relation.WatchlistWithCompanies
 import com.prafullkumar.stockstream.presentation.navigation.Routes
 import com.prafullkumar.stockstream.presentation.screens.watchList.watchListScreen.components.CreateWatchlistDialog
+import com.prafullkumar.stockstream.presentation.screens.watchList.watchListScreen.components.DeleteWatchlistDialog
 import com.prafullkumar.stockstream.presentation.screens.watchList.watchListScreen.components.EmptyWatchlistState
 
 @Composable
@@ -60,7 +63,6 @@ fun WatchlistScreen(
             )
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
-            // Custom header
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -96,6 +98,9 @@ fun WatchlistScreen(
                             watchlist = watchlist,
                             onWatchlistClick = {
                                 navController.navigate(Routes.WatchListCompanies(watchlist.watchlist.id))
+                            },
+                            onDeleteClick = {
+                                viewModel.showDeleteDialog(watchlist.watchlist.id)
                             }
                         )
                     }
@@ -128,13 +133,23 @@ fun WatchlistScreen(
                 onDismiss = { viewModel.hideCreateWatchlistDialog() }
             )
         }
+
+        // Delete Watchlist Dialog
+        if (uiState.showDeleteDialog) {
+            DeleteWatchlistDialog(
+                isDeleting = uiState.isDeleting,
+                onConfirm = { viewModel.deleteWatchlist() },
+                onDismiss = { viewModel.hideDeleteDialog() }
+            )
+        }
     }
 }
 
 @Composable
 fun SimpleWatchlistCard(
     watchlist: WatchlistWithCompanies,
-    onWatchlistClick: () -> Unit
+    onWatchlistClick: () -> Unit,
+    onDeleteClick: () -> Unit
 ) {
     Card(
         onClick = onWatchlistClick,
@@ -185,20 +200,42 @@ fun SimpleWatchlistCard(
                     )
                 }
 
-                Box(
-                    modifier = Modifier
-                        .background(
-                            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
-                            shape = CircleShape
-                        )
-                        .padding(12.dp)
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                        contentDescription = "View watchlist",
-                        tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.size(20.dp)
-                    )
+                    IconButton(
+                        onClick = onDeleteClick,
+                        modifier = Modifier
+                            .background(
+                                color = MaterialTheme.colorScheme.error.copy(alpha = 0.1f),
+                                shape = CircleShape
+                            )
+                            .size(40.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "Delete watchlist",
+                            tint = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.size(18.dp)
+                        )
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .background(
+                                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+                                shape = CircleShape
+                            )
+                            .padding(12.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                            contentDescription = "View watchlist",
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
                 }
             }
         }

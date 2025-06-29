@@ -2,7 +2,6 @@ package com.prafullkumar.stockstream.presentation.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.prafullkumar.stockstream.data.remote.mappers.toDomain
 import com.prafullkumar.stockstream.domain.common.ApiResult
 import com.prafullkumar.stockstream.domain.models.topGainersLosers.TopGainersLosers
 import com.prafullkumar.stockstream.domain.repository.StockRepository
@@ -30,13 +29,15 @@ class TopGainersLosersViewModel(
                     is ApiResult.Loading -> _uiState.value.copy(isLoading = result.isLoading)
                     is ApiResult.Success -> _uiState.value.copy(
                         isLoading = false,
-                        data = result.data.toDomain(),
+                        data = result.data,
                         errorMessage = null
                     )
+
                     is ApiResult.Error -> _uiState.value.copy(
                         isLoading = false,
                         errorMessage = result.message
                     )
+
                     is ApiResult.Empty -> _uiState.value.copy(
                         isLoading = false,
                         errorMessage = result.message
@@ -61,6 +62,7 @@ data class TopGainersLosersUiState(
     val data: TopGainersLosers? = null,
     val errorMessage: String? = null
 )
+
 enum class StockType {
     GAINERS,
     LOSERS,

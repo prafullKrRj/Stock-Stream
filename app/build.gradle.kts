@@ -1,4 +1,5 @@
 import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -17,7 +18,11 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-        buildConfigField("String", "API_KEY", "\"${getApiKey()}\"")
+        buildConfigField("String", "API_KEY_1", "\"${getApiKey("API_KEY_1")}\"")
+        buildConfigField("String", "API_KEY_2", "\"${getApiKey("API_KEY_2")}\"")
+        buildConfigField("String", "API_KEY_4", "\"${getApiKey("API_KEY_4")}\"")
+        buildConfigField("String", "API_KEY_5", "\"${getApiKey("API_KEY_5")}\"")
+        buildConfigField("String", "API_KEY_6", "\"${getApiKey("API_KEY_6")}\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -49,7 +54,9 @@ android {
         buildConfig = true
     }
 }
-fun getApiKey(): String {
+fun getApiKey(
+    key: String,
+): String {
     val localPropertiesFile = rootProject.file("local.properties")
     val localProperties = Properties()
 
@@ -58,7 +65,7 @@ fun getApiKey(): String {
 
     if (localPropertiesFile.exists()) {
         localPropertiesFile.inputStream().use { localProperties.load(it) }
-        val apiKey = localProperties.getProperty("API_KEY", "default_key")
+        val apiKey = localProperties.getProperty(key, "default_key")
         println("Loaded API_KEY: $apiKey")
         return apiKey
     }

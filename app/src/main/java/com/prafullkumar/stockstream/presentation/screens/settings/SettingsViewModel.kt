@@ -32,12 +32,14 @@ class SettingsViewModel(
                 themePreferences.themeMode,
                 themePreferences.dynamicColor
             ) { themeMode, dynamicColor ->
-                _uiState.value = _uiState.value.copy(
-                    themeMode = ThemeMode.values().find { it.value == themeMode }
+                SettingsUiState(
+                    themeMode = ThemeMode.entries.find { it.value == themeMode }
                         ?: ThemeMode.SYSTEM,
                     dynamicColorEnabled = dynamicColor,
                     isLoading = false
                 )
+            }.collect { newState ->
+                _uiState.value = newState
             }
         }
     }

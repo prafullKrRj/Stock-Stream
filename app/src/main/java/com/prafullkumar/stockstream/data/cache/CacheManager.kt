@@ -3,14 +3,16 @@ package com.prafullkumar.stockstream.data.cache
 import java.time.Duration
 import java.util.concurrent.ConcurrentHashMap
 
-class CacheManager  {
+class CacheManager {
     private val cache = ConcurrentHashMap<String, CacheEntry<Any>>()
+
     private data class CacheEntry<T>(
         val value: T,
         val expiry: Long
     ) {
         fun isExpired() = System.currentTimeMillis() > expiry
     }
+
     fun <T : Any> put(key: String, value: T, duration: Duration) {
         val expiry = System.currentTimeMillis() + duration.toMillis()
         cache[key] = CacheEntry(value, expiry)

@@ -2,16 +2,16 @@ package com.prafullkumar.stockstream.domain.repository
 
 import com.prafullkumar.stockstream.data.local.database.entities.WatchListEntity
 import com.prafullkumar.stockstream.data.local.database.entities.WatchlistCompanyEntity
-import com.prafullkumar.stockstream.data.remote.dtos.companyOverview.CompanyOverviewDto
-import com.prafullkumar.stockstream.data.remote.dtos.topGainersLosers.TopGainersLosersDto
 import com.prafullkumar.stockstream.domain.common.ApiResult
 import com.prafullkumar.stockstream.domain.models.StockDataPoint
 import com.prafullkumar.stockstream.domain.models.TimePeriod
+import com.prafullkumar.stockstream.domain.models.companyOverview.CompanyOverview
+import com.prafullkumar.stockstream.domain.models.topGainersLosers.TopGainersLosers
 import kotlinx.coroutines.flow.Flow
 
 interface StockRepository {
-    suspend fun getTopGainersLosers(): Flow<ApiResult<TopGainersLosersDto>>
-    suspend fun getCompanyOverview(symbol: String): Flow<ApiResult<CompanyOverviewDto>>
+    suspend fun getTopGainersLosers(): Flow<ApiResult<TopGainersLosers>>
+    suspend fun getCompanyOverview(symbol: String): Flow<ApiResult<CompanyOverview>>
 
     suspend fun getStockData(
         symbol: String,
