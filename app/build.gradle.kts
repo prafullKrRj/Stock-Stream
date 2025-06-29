@@ -20,6 +20,7 @@ android {
         versionName = "1.0"
         buildConfigField("String", "API_KEY_1", "\"${getApiKey("API_KEY_1")}\"")
         buildConfigField("String", "API_KEY_2", "\"${getApiKey("API_KEY_2")}\"")
+        buildConfigField("String", "API_KEY_3", "\"${getApiKey("API_KEY_3")}\"")
         buildConfigField("String", "API_KEY_4", "\"${getApiKey("API_KEY_4")}\"")
         buildConfigField("String", "API_KEY_5", "\"${getApiKey("API_KEY_5")}\"")
         buildConfigField("String", "API_KEY_6", "\"${getApiKey("API_KEY_6")}\"")

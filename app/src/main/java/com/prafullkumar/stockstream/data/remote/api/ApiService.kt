@@ -32,7 +32,7 @@ interface ApiService {
         @Query("function") function: String = "TIME_SERIES_INTRADAY",
         @Query("symbol") symbol: String,
         @Query("interval") interval: String = "15min",
-        @Query("apikey") apiKey: String = BuildConfig.API_KEY_1,
+        @Query("apikey") apiKey: String = BuildConfig.API_KEY_3,
         @Query("outputsize") outputSize: String = "compact"
     ): IntradayResponseDto
 
@@ -40,7 +40,7 @@ interface ApiService {
     suspend fun getDailyData(
         @Query("function") function: String = "TIME_SERIES_DAILY",
         @Query("symbol") symbol: String,
-        @Query("apikey") apiKey: String = BuildConfig.API_KEY_1,
+        @Query("apikey") apiKey: String = BuildConfig.API_KEY_4,
         @Query("outputsize") outputSize: String = "full"
     ): DailyResponseDto
 
@@ -48,14 +48,14 @@ interface ApiService {
     suspend fun getMonthlyData(
         @Query("function") function: String = "TIME_SERIES_MONTHLY",
         @Query("symbol") symbol: String,
-        @Query("apikey") apiKey: String = BuildConfig.API_KEY_1
+        @Query("apikey") apiKey: String = BuildConfig.API_KEY_5
     ): MonthlyResponseDto
 
     @GET("query")
     suspend fun searchSymbols(
         @Query("function") function: String = "SYMBOL_SEARCH",
         @Query("keywords") keywords: String,
-        @Query("apikey") apiKey: String = BuildConfig.API_KEY_1
+        @Query("apikey") apiKey: String = BuildConfig.API_KEY_6
     ): SearchResponseDto
 
     @GET("query")
@@ -69,6 +69,6 @@ interface ApiService {
         @Query("function") function: String = "NEWS_SENTIMENT",
         @Query("topics") topics: String,
         @Query("sort") sort: String = "LATEST",
-        @Query("apikey") apiKey: String = BuildConfig.API_KEY_1
+        @Query("apikey") apiKey: String = BuildConfig.API_KEY_2
     ): NewsResponseDto
 }

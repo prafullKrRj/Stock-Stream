@@ -27,6 +27,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -35,6 +36,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -55,6 +57,7 @@ import com.prafullkumar.stockstream.domain.models.topGainersLosers.TopGainersLos
 import com.prafullkumar.stockstream.presentation.navigation.Routes
 import org.koin.androidx.compose.koinViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     viewModel: TopGainersLosersViewModel = koinViewModel(),
@@ -74,40 +77,45 @@ fun HomeScreen(
         }
     }
 
-    // Remove Scaffold wrapper - padding is handled by parent
     Box(modifier = Modifier.fillMaxSize()) {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(24.dp)
+        PullToRefreshBox(
+            isRefreshing = uiState.isLoading,
+            onRefresh = { viewModel.retry() },
+            modifier = Modifier.fillMaxSize()
         ) {
-            item {
-                Header(navController)
-            }
-
-            when {
-                uiState.isLoading -> item { LoadingContent() }
-                uiState.errorMessage != null -> item {
-                    ErrorContent(onRetry = viewModel::retry)
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(24.dp)
+            ) {
+                item {
+                    Header(navController)
                 }
 
-                uiState.data != null -> {
-                    stockSections(
-                        data = uiState.data!!,
-                        onViewAllGainers = {
-                            onViewAllClick(StockType.GAINERS)
-                        },
-                        onViewAllLosers = {
-                            onViewAllClick(StockType.LOSERS)
-                        },
-                        onViewAllMostUsed = {
-                            onViewAllClick(StockType.MOST_ACTIVELY_TRADED)
-                        },
-                        navController
-                    )
-                }
+                when {
+                    uiState.isLoading -> item { LoadingContent() }
+                    uiState.errorMessage != null -> item {
+                        ErrorContent(onRetry = viewModel::retry)
+                    }
 
-                else -> item { EmptyContent() }
+                    uiState.data != null -> {
+                        stockSections(
+                            data = uiState.data!!,
+                            onViewAllGainers = {
+                                onViewAllClick(StockType.GAINERS)
+                            },
+                            onViewAllLosers = {
+                                onViewAllClick(StockType.LOSERS)
+                            },
+                            onViewAllMostUsed = {
+                                onViewAllClick(StockType.MOST_ACTIVELY_TRADED)
+                            },
+                            navController
+                        )
+                    }
+
+                    else -> item { EmptyContent() }
+                }
             }
         }
 
