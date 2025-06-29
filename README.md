@@ -47,19 +47,20 @@ Stock Stream is a sleek Android application that brings real-time stock market d
 ## 🏗️ Architecture
 
 ```
-Clean Architecture + MVVM
+MVVM
 ├── Presentation Layer (Jetpack Compose)
 ├── Domain Layer (Use Cases & Models)  
 └── Data Layer (Repository Pattern)
+└── DI Layer
 ```
 
 ### 🛠️ **Tech Stack**
 - **UI**: Jetpack Compose + Material 3
 - **DI**: Koin
-- **Database**: Room
+- **Database**: Room, Datastore
 - **Networking**: Retrofit + OkHttp
 - **Caching**: Custom Cache Manager
-- **Charts**: Custom Implementation
+- **Charts**: ehsannarmani/ComposeCharts
 - **Architecture**: MVVM + Repository Pattern
 
 ## 📱 Screens
